@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generador de Contraseñas</title>
+  <link rel="stylesheet" href="web.css">
+  <script>
+    function generarContrasena() {
+      var cuantasContrasenas = parseInt(prompt("Cuantas contrasenas quieres generar?"));
+      var longitud = parseInt(prompt("Ingresa la longitud deseada para la contrasena:"));
+      var usarMayusculas = prompt("¿Deseas usar letras mayusculas? (s/n):").toLowerCase() === 's';
+      var usarNumeros = prompt("¿Deseas usar numeros? (s/n):").toLowerCase() === 's';
+      var usarSimbolos = prompt("¿Deseas usar simbolos especiales? (s/n):").toLowerCase() === 's';
+
+      var caracteres = 'abcdefghijklmnopqrstuvwxyz';
+      if (usarMayusculas) {
+        caracteres += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      }
+      if (usarNumeros) {
+        caracteres += '0123456789';
+      }
+      if (usarSimbolos) {
+        caracteres += '!@#$%^&*()';
+      }
+
+      var contrasenas = [];
+      for (var i = 0; i < cuantasContrasenas; i++) {
+        var contrasena = '';
+        for (var j = 0; j < longitud; j++) {
+          contrasena += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+        }
+        contrasenas.push(contrasena);
+      }
+
+      var resultadosDiv = document.getElementById('resultados');
+      resultadosDiv.innerHTML = '';
+      for (var k = 0; k < contrasenas.length; k++) {
+        var p = document.createElement('p');
+        p.textContent = 'Constraseña generada: ' + contrasenas[k];
+        resultadosDiv.appendChild(p);
+      }
+
+      var contenidoArchivo = contrasenas.join('\n');
+      var archivo = new Blob([contenidoArchivo], { type: 'text/plain' });
+      var enlaceDescarga = document.createElement('a');
+      enlaceDescarga.href = URL.createObjectURL(archivo);
+      enlaceDescarga.download = 'contrasenas.txt';
+      enlaceDescarga.textContent = 'Descargar contraseñas';
+      resultadosDiv.appendChild(enlaceDescarga);
+      ////Archivos xlxs (excel del drive)
+      ///<script src="xlsx.full.min.js"></script>
+
+      ///var contenidoArchivo = contrasenas.join('\n');
+      ///var archivo = new Blob([contenidoArchivo], { type: 'text/plain' });
+      ///var enlaceDescarga = document.createElement('a');
+      ///enlaceDescarga.href = URL.createObjectURL(archivo);
+      ///enlaceDescarga.download = 'contrasenas.xlxs';
+      ///enlaceDescarga.textContent = 'Descargar contrasenas xlxs';
+      ///resultadosDiv.appendChild(enlaceDescarga);
+
+
+
+
+      var mensaje = document.createElement('p');
+      mensaje.textContent = 'Tus contraseñas han sido generadas';
+      resultadosDiv.appendChild(mensaje);
+    }
+  </script>
+</head>
+<body class="container">
+  <h1>Generador de Contrasenas</h1>
+  <button onclick="generarContrasena()">Generar Contrasenas</button>
+  <div id="resultados"></div>
+  <h3>No guardamos tus contrasenas generadas, asegurate de descargar el documento</h3>
+</body>
+</html>
